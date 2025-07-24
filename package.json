@@ -1,35 +1,63 @@
 {
   "name": "dodo-payments-figma-demo",
   "version": "1.0.0",
-  "description": "Your Figma Plugin",
-  "main": "code.js",
+  "description": "Dodo Payments Figma Plugin Demo",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "test": "npm run tsc && npm run build",
+    "format": "prettier --write .",
     "lint": "eslint --ext .ts,.tsx --ignore-pattern node_modules .",
     "lint:fix": "eslint --ext .ts,.tsx --ignore-pattern node_modules --fix .",
-    "watch": "npm run build -- --watch"
+    "tsc": "npm run tsc:main && npm run tsc:ui",
+    "tsc:main": "tsc --noEmit -p src/main",
+    "tsc:ui": "tsc --noEmit -p src/ui",
+    "tsc:watch": "concurrently -n widget,iframe \"npm run tsc:main -- --watch --preserveWatchOutput\" \"npm run tsc:ui -- --watch --preserveWatchOutput\"",
+    "build": "npm run build:ui && npm run build:main -- --minify",
+    "build:main": "esbuild src/main/main.ts --bundle --outfile=dist/code.js",
+    "build:ui": "npx vite build --minify esbuild --emptyOutDir=false",
+    "build:watch": "concurrently -n widget,iframe \"npm run build:main -- --watch\" \"npm run build:ui -- --watch\"",
+    "dev": "concurrently -n tsc,build,vite 'npm:tsc:watch' 'npm:build:watch' 'vite'"
   },
-  "author": "",
-  "license": "",
+  "author": "Dodo Payments",
+  "license": "MIT",
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.5.4"
+  },
   "devDependencies": {
     "@figma/eslint-plugin-figma-plugins": "*",
     "@figma/plugin-typings": "*",
+    "@types/react": "^18.2.38",
+    "@types/react-dom": "^18.2.16",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.19.7",
     "eslint": "^8.54.0",
-    "typescript": "^5.3.2"
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.0",
+    "vite-plugin-singlefile": "^0.13.5",
+    "vite-svg-loader": "^5.1.0"
   },
   "eslintConfig": {
     "extends": [
       "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@figma/figma-plugins/recommended"
+      "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "project": "./tsconfig.json"
+      "ecmaVersion": "latest",
+      "sourceType": "module"
     },
     "root": true,
+    "env": {
+      "es2022": true,
+      "browser": true,
+      "node": true
+    },
     "rules": {
       "@typescript-eslint/no-unused-vars": [
         "error",

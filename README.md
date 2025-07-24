@@ -1,40 +1,49 @@
-Below are the steps to get your plugin running. You can also find instructions at:
+# dodo-payments-figma-demo
 
-  https://www.figma.com/plugin-docs/plugin-quickstart-guide/
+A simple example of how to use Dodo Payments License Key validation in a Figma plugin.
 
-This plugin template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+### Development
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+Import this plugin into Figma using "Import Manifest". Run the following command to start the development server:
 
-  https://nodejs.org/en/download/
+```bash
+npm run dev
+```
 
-Next, install TypeScript using the command:
+### Configuration
 
-  npm install -g typescript
+#### Organization ID
 
-Finally, in the directory of your plugin, get the latest type definitions for the plugin API by running:
+Replace `ORGANIZATION_ID` in `src/ui/main.tsx` with your actual organization ID. It can be found in your Dodo Payments Organization Settings page.
 
-  npm install --save-dev @figma/plugin-typings
+#### Environment
 
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
+Set the environment in `src/ui/dodo-payments.ts` to `"test_mode"` to use the sandbox server for development. Switch this to `"live_mode"` when you're ready to go live.
 
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
+#### Manifest
 
-For more information, visit https://www.typescriptlang.org/
+It is very important to allow the plugin to access the Dodo Payments API. You can allow this by adding the following to the `networkAccess` section in `manifest.json`:
 
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
+```json
+"networkAccess": {
+	"allowedDomains": ["https://*.dodopayments.com"]
+}
+```
 
-We recommend writing TypeScript code using Visual Studio code:
+This allows the plugin to validate license keys using the Dodo Payments API server.
 
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "npm: watch". You will have to do this again every time
-    you reopen Visual Studio Code.
+### TODO: Implementation Steps
 
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
+This plugin currently contains placeholder code. To complete the implementation:
+
+1. **Install Dodo Payments SDK**: Add the actual Dodo Payments Node.js SDK to your dependencies
+2. **Replace TODOs in `src/ui/dodo-payments.ts`**: Implement actual SDK initialization and license validation
+3. **Update TypeScript types**: Replace placeholder types with actual Dodo Payments SDK types
+4. **Test license validation**: Verify that license key validation works with your Dodo Payments setup
+
+### Build Commands
+
+- `npm run build` - Build the plugin for production
+- `npm run dev` - Start development server with file watching
+- `npm run lint` - Check code style and errors
+- `npm run format` - Format code with Prettier
