@@ -1,8 +1,18 @@
-# dodo-payments-figma-demo
+# dodopayments-figma
 
-A simple example of how to use Dodo Payments License Key validation in a Figma plugin.
+A complete Figma plugin example demonstrating Dodo Payments license key validation and activation functionality.
 
-### Development
+## Getting Started
+
+1. Create your own figma plugin project using [this guide](https://www.figma.com/plugin-docs/plugin-quickstart-guide/). This should generate a scaffold for your plugin with a `manifest.json`.
+2. Clone this repository and update it's `manifest.json` with the name and id from the manifest of the previously generated plugin folder.
+3. Run `npm install` to install dependencies.
+4. Customize the ui in `src/ui/components/Authenticated.tsx` to expose functionality for users with valid license keys.
+5. Customise `LicenseKeyInput.tsx` to your linking.
+6. Set the `API_MODE` in `src/ui/api.ts` to `"test_mode"` for development or `"live_mode"` when ready for production use.
+7. The rest of the process should be obvious and figuring out publishing, testing, etc. is left to the developer using this template.
+
+## Development
 
 Import this plugin into Figma using "Import Manifest". Run the following command to start the development server:
 
@@ -10,36 +20,33 @@ Import this plugin into Figma using "Import Manifest". Run the following command
 npm run dev
 ```
 
-### Configuration
+## Configuration
 
-#### Organization ID
+### Environment
 
-Replace `ORGANIZATION_ID` in `src/ui/main.tsx` with your actual organization ID. It can be found in your Dodo Payments Organization Settings page.
+Set the `API_MODE` in `src/ui/api.ts` to `"test_mode"` for development or `"live_mode"` for production.
 
-#### Environment
+### Manifest
 
-Set the environment in `src/ui/dodo-payments.ts` to `"test_mode"` to use the sandbox server for development. Switch this to `"live_mode"` when you're ready to go live.
-
-#### Manifest
-
-It is very important to allow the plugin to access the Dodo Payments API. You can allow this by adding the following to the `networkAccess` section in `manifest.json`:
+The plugin needs network access to communicate with the CORS proxy. Add the following to the `networkAccess` section in `manifest.json`:
 
 ```json
 "networkAccess": {
-	"allowedDomains": ["https://*.dodopayments.com"]
+	"allowedDomains": ["https://dodo-payments-proxy.aagarwal9782.workers.dev"]
 }
 ```
 
-This allows the plugin to validate license keys using the Dodo Payments API server.
+This allows the plugin to validate and activate license keys using the Dodo Payments API.
 
-### TODO: Implementation Steps
+### Features
 
-This plugin currently contains placeholder code. To complete the implementation:
+This plugin includes:
 
-1. **Install Dodo Payments SDK**: Add the actual Dodo Payments Node.js SDK to your dependencies
-2. **Replace TODOs in `src/ui/dodo-payments.ts`**: Implement actual SDK initialization and license validation
-3. **Update TypeScript types**: Replace placeholder types with actual Dodo Payments SDK types
-4. **Test license validation**: Verify that license key validation works with your Dodo Payments setup
+- **License Key Validation**: Validates license keys against the Dodo Payments API
+- **License Key Activation**: Activates license keys with user identification
+- **Environment Support**: Configurable for both test and live environments  
+- **CORS Proxy**: Uses a Cloudflare Worker proxy to handle CORS restrictions
+- **TypeScript Support**: Fully typed implementation with proper error handling
 
 ### Build Commands
 

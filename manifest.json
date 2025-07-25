@@ -1,5 +1,5 @@
 {
-  "name": "dodo-payments-figma-demo",
+  "name": "dodopayments-figma",
   "id": "1530159661726177073",
   "api": "1.0.0",
   "main": "dist/code.js",
@@ -9,9 +9,6 @@
   "editorType": ["figma"],
   "ui": "dist/index.html",
   "networkAccess": {
-    "allowedDomains": [
-      "https://*.dodopayments.com",
-      "https://dodo-payments-proxy.aagarwal9782.workers.dev"
-    ]
+    "allowedDomains": ["https://dodo-payments-proxy.aagarwal9782.workers.dev"]
   }
 }
