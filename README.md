@@ -1,4 +1,4 @@
-# dodopayments-figma
+# Dodo Payments Figma
 
 A complete Figma plugin example demonstrating Dodo Payments license key validation and activation functionality.
 
