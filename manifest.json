@@ -9,6 +9,9 @@
   "editorType": ["figma"],
   "ui": "dist/index.html",
   "networkAccess": {
-    "allowedDomains": ["https://dodo-payments-proxy.aagarwal9782.workers.dev"]
+    "allowedDomains": [
+      "https://test.dodopayments.com",
+      "https://live.dodopayments.com"
+    ]
   }
 }

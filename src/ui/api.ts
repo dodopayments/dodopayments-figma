@@ -6,28 +6,6 @@ import {
 // TODO: change this to live_mode when your plugin is ready
 const API_MODE: "test_mode" | "live_mode" = "test_mode";
 
-export const PROXY_URL = new URL(
-  "https://dodo-payments-proxy.aagarwal9782.workers.dev/dodo-payments-proxy/",
-);
-
-function reqToProxy(req: Request): Request {
-  const originalUrl = req.url;
-
-  const searchParams = new URLSearchParams({
-    apiurl: originalUrl,
-  });
-
-  const newReq = new Request(PROXY_URL + "?" + searchParams.toString(), {
-    body: req.body,
-    method: req.method,
-    headers: req.headers,
-    // @ts-expect-error No types for this
-    duplex: "half",
-  });
-
-  return newReq;
-}
-
 export async function validateLicenseKey(
   licenseKey: string,
 ): Promise<LicenseKeyValidationResponse> {
@@ -45,8 +23,7 @@ export async function validateLicenseKey(
     body: JSON.stringify({ license_key: licenseKey }),
   });
 
-  const proxyReq = reqToProxy(req);
-  const res = await fetch(proxyReq);
+  const res = await fetch(req);
 
   const resJson = (await res.json()) as { valid: boolean };
   if (resJson.valid) {
@@ -74,8 +51,7 @@ export async function activateLicenseKey(
     body: JSON.stringify({ license_key: licenseKey, name }),
   });
 
-  const proxyReq = reqToProxy(req);
-  const res = await fetch(proxyReq);
+  const res = await fetch(req);
 
   if (!res.ok) {
     const error = (await res.json()) as { code: string; message: string };
