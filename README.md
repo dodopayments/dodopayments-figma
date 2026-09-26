@@ -28,11 +28,14 @@ Set the `API_MODE` in `src/ui/api.ts` to `"test_mode"` for development or `"live
 
 ### Manifest
 
-The plugin needs network access to communicate with the CORS proxy. Add the following to the `networkAccess` section in `manifest.json`:
+The plugin calls the Dodo Payments API directly. The license key endpoints accept requests from the plugin iframe's `null` origin, so no CORS proxy is needed. Add the API domains to the `networkAccess` section in `manifest.json`:
 
 ```json
 "networkAccess": {
-	"allowedDomains": ["https://dodo-payments-proxy.aagarwal9782.workers.dev"]
+	"allowedDomains": [
+		"https://test.dodopayments.com",
+		"https://live.dodopayments.com"
+	]
 }
 ```
 
@@ -45,7 +48,6 @@ This plugin includes:
 - **License Key Validation**: Validates license keys against the Dodo Payments API
 - **License Key Activation**: Activates license keys with user identification
 - **Environment Support**: Configurable for both test and live environments  
-- **CORS Proxy**: Uses a Cloudflare Worker proxy to handle CORS restrictions
 - **TypeScript Support**: Fully typed implementation with proper error handling
 
 ### Build Commands
